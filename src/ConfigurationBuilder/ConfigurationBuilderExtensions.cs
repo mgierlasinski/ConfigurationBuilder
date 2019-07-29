@@ -12,6 +12,12 @@ namespace ConfigurationBuilder
             return builder;
         }
 
+        public static ConfigurationBuilder<T> FromFile<T>(this ConfigurationBuilder<T> builder, string path)
+        {
+            builder.Reader = new FileReader(path);
+            return builder;
+        }
+
         public static ConfigurationBuilder<T> FromString<T>(this ConfigurationBuilder<T> builder, string content)
         {
             builder.Reader = new MemoryReader(content);

@@ -12,4 +12,10 @@
     <EmbeddedResource Include="Config\ResourceConfig.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Config\CopyConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
