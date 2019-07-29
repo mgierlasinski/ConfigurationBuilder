@@ -5,12 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Readers\" />
-    <Folder Include="Processors\" />
+    <None Remove="Config\ResourceConfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <EmbeddedResource Include="Config\ResourceConfig.json" />
   </ItemGroup>
 
 </Project>

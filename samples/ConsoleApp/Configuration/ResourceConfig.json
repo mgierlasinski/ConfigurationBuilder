@@ -1,0 +1,6 @@
+{
+  "Authority": "https://test.domain.com",
+  "ClientId": "mobile_client",
+  "ClientSecret": "zdFpegWRoCac2dPQpPn1",
+  "RedirectUri": "mobile://callback"
+}
