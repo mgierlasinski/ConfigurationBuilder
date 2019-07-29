@@ -5,17 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Config\ResourceConfig.json" />
+    <None Remove="Config\ClientConfiguration.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Config\ResourceConfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Config\CopyConfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="Config\ClientConfiguration.json" />
   </ItemGroup>
 
 </Project>

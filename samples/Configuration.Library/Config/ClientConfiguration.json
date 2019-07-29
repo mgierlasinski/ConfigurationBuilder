@@ -1,6 +1,6 @@
 {
   "Authority": "https://test.domain.com",
-  "ClientId": "mobile_client",
+  "ClientId": "api_client",
   "ClientSecret": "zdFpegWRoCac2dPQpPn1",
-  "Description": "Copy to output: Copy always"
+  "Description": "Build Action: Embedded Resource"
 }
