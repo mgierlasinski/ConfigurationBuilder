@@ -1,19 +1,19 @@
 using ConfigurationBuilder.Tests.Config;
-using ConfigurationBuilder.Tests.Config.Xml;
+using ConfigurationBuilder.Tests.Config.Yaml;
 using FluentAssertions;
 using Xunit;
 
 namespace ConfigurationBuilder.Tests
 {
-    public class ConfigurationBuilderExtensionsTests
+    public class ConfigurationBuilderYamlExtensionsTests
     {
         [Fact]
-        public void AsXmlFromResource_FileExists_CorrectConfiguration()
+        public void AsYamlFromResource_FileExists_CorrectConfiguration()
         {
             // Act
-            var configuration = new ConfigurationBuilder<ConfigurationXml>()
-                .FromResource("ConfigurationBuilder.Tests.Config.Xml.ResourceConfig.xml")
-                .AsXmlFormat()
+            var configuration = new ConfigurationBuilder<ConfigurationYaml>()
+                .FromResource("ConfigurationBuilder.Tests.Config.Yaml.ResourceConfig.yaml")
+                .AsYamlFormat()
                 .Build();
 
             // Assert
@@ -21,12 +21,12 @@ namespace ConfigurationBuilder.Tests
         }
 
         [Fact]
-        public void AsXmlFromFile_FileExists_CorrectConfiguration()
+        public void AsYamlFromFile_FileExists_CorrectConfiguration()
         {
             // Act
-            var configuration = new ConfigurationBuilder<ConfigurationXml>()
-                .FromFile("Config\\Xml\\CopyConfig.xml")
-                .AsXmlFormat()
+            var configuration = new ConfigurationBuilder<ConfigurationYaml>()
+                .FromFile("Config\\Yaml\\CopyConfig.yaml")
+                .AsYamlFormat()
                 .Build();
 
             // Assert
