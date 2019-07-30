@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration xmlns="http://www.contoso.com">
+  <Authority>https://test.domain.com</Authority>
+  <ClientId>api_client</ClientId>
+  <ClientSecret>zdFpegWRoCac2dPQpPn1</ClientSecret>
+</Configuration>

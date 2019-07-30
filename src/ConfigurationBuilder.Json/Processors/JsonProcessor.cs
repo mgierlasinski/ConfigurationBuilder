@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Threading.Tasks;
 
-namespace ConfigurationBuilder.Processors
+namespace ConfigurationBuilder.Json.Processors
 {
     public class JsonProcessor<T> : IContentProcessor<T>
     {

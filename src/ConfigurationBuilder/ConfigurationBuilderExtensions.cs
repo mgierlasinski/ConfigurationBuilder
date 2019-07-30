@@ -29,11 +29,5 @@ namespace ConfigurationBuilder
             builder.Processor = new XmlProcessor<T>();
             return builder;
         }
-
-        public static ConfigurationBuilder<T> AsJsonFormat<T>(this ConfigurationBuilder<T> builder)
-        {
-            builder.Processor = new JsonProcessor<T>();
-            return builder;
-        }
     }
 }

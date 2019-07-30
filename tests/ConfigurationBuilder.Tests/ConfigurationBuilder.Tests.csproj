@@ -24,11 +24,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ConfigurationBuilder\ConfigurationBuilder.csproj" />
+    <ProjectReference Include="..\..\src\ConfigurationBuilder.Json\ConfigurationBuilder.Json.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Config\Json\CopyConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\Xml\CopyConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
