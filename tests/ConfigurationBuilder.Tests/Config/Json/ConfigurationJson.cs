@@ -1,6 +1,6 @@
-﻿namespace ConfigurationBuilder.Tests.Config
+﻿namespace ConfigurationBuilder.Tests.Config.Json
 {
-    public class Configuration
+    public class ConfigurationJson : IConfiguration
     {
         public string Authority { get; set; }
         public string ClientId { get; set; }

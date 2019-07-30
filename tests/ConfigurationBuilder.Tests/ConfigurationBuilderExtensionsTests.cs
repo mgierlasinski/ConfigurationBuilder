@@ -1,4 +1,6 @@
 using ConfigurationBuilder.Tests.Config;
+using ConfigurationBuilder.Tests.Config.Json;
+using ConfigurationBuilder.Tests.Config.Xml;
 using FluentAssertions;
 using Xunit;
 
@@ -7,11 +9,24 @@ namespace ConfigurationBuilder.Tests
     public class ConfigurationBuilderExtensionsTests
     {
         [Fact]
+        public void FromResourceAsXml_FileExists_CorrectConfiguration()
+        {
+            // Act
+            var configuration = new ConfigurationBuilder<ConfigurationXml>()
+                .FromResource("ConfigurationBuilder.Tests.Config.Xml.ResourceConfig.xml")
+                .AsXmlFormat()
+                .Build();
+
+            // Assert
+            AssertHasCorrectValues(configuration);
+        }
+
+        [Fact]
         public void FromResourceAsJson_FileExists_CorrectConfiguration()
         {
             // Act
-            var configuration = new ConfigurationBuilder<Configuration>()
-                .FromResource("ConfigurationBuilder.Tests.Config.ResourceConfig.json")
+            var configuration = new ConfigurationBuilder<ConfigurationJson>()
+                .FromResource("ConfigurationBuilder.Tests.Config.Json.ResourceConfig.json")
                 .AsJsonFormat()
                 .Build();
 
@@ -23,8 +38,8 @@ namespace ConfigurationBuilder.Tests
         public void FromFileAsJson_FileExists_CorrectConfiguration()
         {
             // Act
-            var configuration = new ConfigurationBuilder<Configuration>()
-                .FromFile("Config\\CopyConfig.json")
+            var configuration = new ConfigurationBuilder<ConfigurationJson>()
+                .FromFile("Config\\Json\\CopyConfig.json")
                 .AsJsonFormat()
                 .Build();
 
@@ -36,7 +51,7 @@ namespace ConfigurationBuilder.Tests
         public void FromStringAsJson_FileExists_CorrectConfiguration()
         {
             // Act
-            var configuration = new ConfigurationBuilder<Configuration>()
+            var configuration = new ConfigurationBuilder<ConfigurationJson>()
                 .FromString("{ \"Authority\": \"https://test.domain.com\", \"ClientId\": \"api_client\", " +
                             "\"ClientSecret\": \"zdFpegWRoCac2dPQpPn1\" }")
                 .AsJsonFormat()
@@ -46,7 +61,7 @@ namespace ConfigurationBuilder.Tests
             AssertHasCorrectValues(configuration);
         }
 
-        private void AssertHasCorrectValues(Configuration configuration)
+        private void AssertHasCorrectValues(IConfiguration configuration)
         {
             configuration.Should().NotBeNull();
             configuration.Authority.Should().Be("https://test.domain.com");
