@@ -9,13 +9,10 @@ namespace ConfigurationBuilder.Processors
     {
         public T ProcessContent(string content)
         {
-            using (var stringReader = new StringReader(content))
+            using (var xmlReader = XmlReader.Create(new StringReader(content)))
             {
-                using (var xmlReader = XmlReader.Create(stringReader))
-                {
-                    var serializer = new DataContractSerializer(typeof(T));
-                    return (T)serializer.ReadObject(xmlReader);
-                }
+                var serializer = new DataContractSerializer(typeof(T));
+                return (T)serializer.ReadObject(xmlReader);
             }
         }
 

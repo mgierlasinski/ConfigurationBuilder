@@ -9,11 +9,13 @@
   <ItemGroup>
     <None Remove="Config\Json\ResourceConfig.json" />
     <None Remove="Config\Xml\ResourceConfig.xml" />
+    <None Remove="Config\Yaml\ResourceConfig.yaml" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Config\Json\ResourceConfig.json" />
     <EmbeddedResource Include="Config\Xml\ResourceConfig.xml" />
+    <EmbeddedResource Include="Config\Yaml\ResourceConfig.yaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\ConfigurationBuilder.Json\ConfigurationBuilder.Json.csproj" />
+    <ProjectReference Include="..\..\src\ConfigurationBuilder.Yaml\ConfigurationBuilder.Yaml.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +35,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Config\Xml\CopyConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\Yaml\CopyConfig.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
