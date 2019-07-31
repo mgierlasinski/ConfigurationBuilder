@@ -12,4 +12,13 @@
     <EmbeddedResource Include="Config\ClientConfiguration.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Refit" Version="4.7.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ConfigurationBuilder.Json\ConfigurationBuilder.Json.csproj" />
+  </ItemGroup>
+
 </Project>
