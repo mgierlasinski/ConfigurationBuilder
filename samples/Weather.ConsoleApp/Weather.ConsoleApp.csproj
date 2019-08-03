@@ -6,8 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ConfigurationBuilder.Json\ConfigurationBuilder.Json.csproj" />
-    <ProjectReference Include="..\Configuration.Library\Configuration.Library.csproj" />
+    <ProjectReference Include="..\Weather.Api\Weather.Api.csproj" />
   </ItemGroup>
 
 </Project>

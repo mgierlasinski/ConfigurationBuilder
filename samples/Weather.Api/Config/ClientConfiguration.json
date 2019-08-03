@@ -1,0 +1,5 @@
+{
+  "ApiUrl": "https://api.openweathermap.org/data/",
+  "ApiVersion": "2.5",
+  "AppId": "b5dc472083eb21298b570b0fb9d9680d"
+}
