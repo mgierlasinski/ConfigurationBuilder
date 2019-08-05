@@ -2,6 +2,6 @@
 {
     public interface IFileNameHandler
     {
-        string GetFilePathForEnvironment(string filePath);
+        string GetFilePathForEnvironment(string path, string environment);
     }
 }

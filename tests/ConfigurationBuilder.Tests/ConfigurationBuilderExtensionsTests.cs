@@ -12,15 +12,17 @@ namespace ConfigurationBuilder.Tests
         public void Setup_CustomFileNameHandler_HandlerConfigured()
         {
             // Arrange
-            var fileNameHandler = Substitute.For<IFileNameHandler>();
-            fileNameHandler.GetFilePathForEnvironment(Arg.Any<string>()).Returns("PathToFile");
+            var handler = Substitute.For<IFileNameHandler>();
+            handler.GetFilePathForEnvironment(
+                Arg.Any<string>(), Arg.Any<string>()).Returns("Config.dev.ext");
 
             // Act
             var builder = new ConfigurationBuilder<ConfigurationXml>()
-                .Setup(x => x.FileNameHandler = fileNameHandler);
+                .Setup(x => x.FileNameHandler = handler);
 
             // Assert
-            builder.FileNameHandler.GetFilePathForEnvironment("dev").Should().Be("PathToFile");
+            builder.FileNameHandler.GetFilePathForEnvironment("Config.ext", "dev")
+                .Should().Be("Config.dev.ext");
         }
 
         private void AssertHasCorrectValues(IConfiguration configuration)
