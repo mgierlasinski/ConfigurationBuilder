@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Threading.Tasks;
 
 namespace ConfigurationBuilder.Json.Processors
 {
@@ -10,9 +9,9 @@ namespace ConfigurationBuilder.Json.Processors
             return JsonConvert.DeserializeObject<T>(content);
         }
 
-        public Task<T> ProcessContentAsync(string content)
+        public T ProcessMultipleContents(params string[] contents)
         {
-            return Task.FromResult(ProcessContent(content));
+            throw new System.NotImplementedException();
         }
     }
 }

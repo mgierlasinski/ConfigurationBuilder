@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace ConfigurationBuilder.Readers
+﻿namespace ConfigurationBuilder.Readers
 {
     public class MemoryReader : IContentReader
     {
@@ -16,9 +14,9 @@ namespace ConfigurationBuilder.Readers
             return _content;
         }
 
-        public Task<string> ReadContentAsync()
+        public string ReadContentForEnvironment(string environment)
         {
-            return Task.FromResult(_content);
+            throw new System.NotImplementedException();
         }
     }
 }

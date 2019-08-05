@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace ConfigurationBuilder.Readers
 {
@@ -36,9 +35,9 @@ namespace ConfigurationBuilder.Readers
             return file;
         }
 
-        public Task<string> ReadContentAsync()
+        public string ReadContentForEnvironment(string environment)
         {
-            return Task.FromResult(ReadContent());
+            throw new NotImplementedException();
         }
     }
 }

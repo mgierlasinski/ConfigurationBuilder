@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 
 namespace ConfigurationBuilder.Readers
 {
@@ -17,9 +16,9 @@ namespace ConfigurationBuilder.Readers
             return File.ReadAllText(_path);
         }
 
-        public Task<string> ReadContentAsync()
+        public string ReadContentForEnvironment(string environment)
         {
-            return Task.FromResult(ReadContent());
+            throw new System.NotImplementedException();
         }
     }
 }

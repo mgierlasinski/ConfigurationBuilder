@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -16,9 +15,9 @@ namespace ConfigurationBuilder.Yaml.Processors
             return deserializer.Deserialize<T>(new StringReader(content));
         }
 
-        public Task<T> ProcessContentAsync(string content)
+        public T ProcessMultipleContents(params string[] contents)
         {
-            return Task.FromResult(ProcessContent(content));
+            throw new System.NotImplementedException();
         }
     }
 }

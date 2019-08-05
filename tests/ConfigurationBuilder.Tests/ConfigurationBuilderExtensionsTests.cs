@@ -1,12 +1,28 @@
 using ConfigurationBuilder.Tests.Config;
 using ConfigurationBuilder.Tests.Config.Xml;
 using FluentAssertions;
+using NSubstitute;
 using Xunit;
 
 namespace ConfigurationBuilder.Tests
 {
     public class ConfigurationBuilderExtensionsTests
     {
+        [Fact]
+        public void Setup_CustomFileNameHandler_HandlerConfigured()
+        {
+            // Arrange
+            var fileNameHandler = Substitute.For<IFileNameHandler>();
+            fileNameHandler.GetFilePathForEnvironment(Arg.Any<string>()).Returns("PathToFile");
+
+            // Act
+            var builder = new ConfigurationBuilder<ConfigurationXml>()
+                .Setup(x => x.FileNameHandler = fileNameHandler);
+
+            // Assert
+            builder.FileNameHandler.GetFilePathForEnvironment("dev").Should().Be("PathToFile");
+        }
+
         [Fact]
         public void AsXmlFromResource_FileExists_CorrectConfiguration()
         {

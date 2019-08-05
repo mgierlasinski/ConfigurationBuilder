@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace ConfigurationBuilder.Processors
@@ -16,9 +15,9 @@ namespace ConfigurationBuilder.Processors
             }
         }
 
-        public Task<T> ProcessContentAsync(string content)
+        public T ProcessMultipleContents(params string[] contents)
         {
-            return Task.FromResult(ProcessContent(content));
+            throw new System.NotImplementedException();
         }
     }
 }
