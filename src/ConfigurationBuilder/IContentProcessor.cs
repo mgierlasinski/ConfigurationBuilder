@@ -4,6 +4,6 @@
     {
         T ProcessContent(string content);
 
-        T ProcessMultipleContents(params string[] contents);
+        T MergeContents(params string[] contents);
     }
 }

@@ -17,7 +17,7 @@
             var content = Reader.ReadContent();
             var envContent = Reader.ReadContentForEnvironment(environment);
 
-            return Processor.ProcessMultipleContents(content, envContent);
+            return Processor.MergeContents(content, envContent);
         }
     }
 }

@@ -1,4 +1,6 @@
 using ConfigurationBuilder.Tests.Config;
+using ConfigurationBuilder.Tests.TestData;
+using FluentAssertions;
 using Xunit;
 
 namespace ConfigurationBuilder.Tests
@@ -6,7 +8,7 @@ namespace ConfigurationBuilder.Tests
     public partial class ConfigurationBuilderExtensionsTests
     {
         [Fact]
-        public void AsJsonFromResource_FileExists_CorrectConfiguration()
+        public void AsJsonFromResourceBuild_FileExists_CorrectConfiguration()
         {
             // Act
             var configuration = new ConfigurationBuilder<Configuration>()
@@ -15,11 +17,30 @@ namespace ConfigurationBuilder.Tests
                 .Build();
 
             // Assert
-            AssertHasCorrectValues(configuration);
+            configuration.Should().BeEquivalentTo(ConfigurationTestData.GetExpected());
+        }
+
+        [Theory]
+        [InlineData("dev", "api_client_dev", "client_secret_dev")]
+        [InlineData("prod", "api_client_prod", "client_secret_prod")]
+        public void AsJsonFromResourceBuildEnvironment_FileExists_CorrectConfiguration(string env, string client, string secret)
+        {
+            // Act
+            var configuration = new ConfigurationBuilder<Configuration>()
+                .FromResource("ConfigurationBuilder.Tests.Config.Json.ResourceConfig.json")
+                .AsJsonFormat()
+                .BuildForEnvironment(env);
+
+            // Assert
+            var expected = ConfigurationTestData.GetExpected();
+            expected.ClientId = client;
+            expected.ClientSecret = secret;
+
+            configuration.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
-        public void AsJsonFromFile_FileExists_CorrectConfiguration()
+        public void AsJsonFromFileBuild_FileExists_CorrectConfiguration()
         {
             // Act
             var configuration = new ConfigurationBuilder<Configuration>()
@@ -28,21 +49,24 @@ namespace ConfigurationBuilder.Tests
                 .Build();
 
             // Assert
-            AssertHasCorrectValues(configuration);
+            configuration.Should().BeEquivalentTo(ConfigurationTestData.GetExpected());
         }
 
         [Fact]
-        public void AsJsonFromString_FileExists_CorrectConfiguration()
+        public void AsJsonFromStringBuild_FileExists_CorrectConfiguration()
         {
             // Act
             var configuration = new ConfigurationBuilder<Configuration>()
-                .FromString("{ \"Authority\": \"https://test.domain.com\", \"ClientId\": \"api_client\", " +
+                .FromString("{" + 
+                            "\"ApiUrl\": \"https://test.domain.com\", " +
+                            "\"ApiVersion\": \"1.0\", " +
+                            "\"ClientId\": \"api_client\", " + 
                             "\"ClientSecret\": \"zdFpegWRoCac2dPQpPn1\" }")
                 .AsJsonFormat()
                 .Build();
 
             // Assert
-            AssertHasCorrectValues(configuration);
+            configuration.Should().BeEquivalentTo(ConfigurationTestData.GetExpected());
         }
     }
 }

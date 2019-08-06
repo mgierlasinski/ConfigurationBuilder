@@ -16,7 +16,7 @@
 
         public string ReadContentForEnvironment(string environment)
         {
-            throw new System.NotImplementedException();
+            return _content;
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace ConfigurationBuilder.Json.Processors
 {
@@ -9,9 +11,24 @@ namespace ConfigurationBuilder.Json.Processors
             return JsonConvert.DeserializeObject<T>(content);
         }
 
-        public T ProcessMultipleContents(params string[] contents)
+        public T MergeContents(params string[] contents)
         {
-            throw new System.NotImplementedException();
+            if (contents.Length < 1)
+                return default;
+
+            var mergedJson = JObject.Parse(contents.First());
+
+            foreach (var content in contents.Skip(1))
+            {
+                var json = JObject.Parse(content);
+
+                mergedJson.Merge(json, new JsonMergeSettings
+                {
+                    MergeArrayHandling = MergeArrayHandling.Union
+                });
+            }
+
+            return mergedJson.ToObject<T>();
         }
     }
 }

@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Config\Json\ResourceConfig.dev.json" />
     <None Remove="Config\Json\ResourceConfig.json" />
+    <None Remove="Config\Json\ResourceConfig.prod.json" />
     <None Remove="Config\Xml\ResourceConfig.xml" />
     <None Remove="Config\Yaml\ResourceConfig.yaml" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Config\Json\ResourceConfig.prod.json" />
+    <EmbeddedResource Include="Config\Json\ResourceConfig.dev.json" />
     <EmbeddedResource Include="Config\Json\ResourceConfig.json" />
     <EmbeddedResource Include="Config\Xml\ResourceConfig.xml" />
     <EmbeddedResource Include="Config\Yaml\ResourceConfig.yaml" />
@@ -35,6 +39,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Config\Json\CopyConfig.prod.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\Json\CopyConfig.dev.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Config\Json\CopyConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

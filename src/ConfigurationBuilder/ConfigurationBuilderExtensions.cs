@@ -15,13 +15,13 @@ namespace ConfigurationBuilder
 
         public static ConfigurationBuilder<T> FromResource<T>(this ConfigurationBuilder<T> builder, string path, Assembly assembly = null)
         {
-            builder.Reader = new EmbeddedResourceReader(path, assembly ?? typeof(T).Assembly);
+            builder.Reader = new EmbeddedResourceReader(path, assembly ?? typeof(T).Assembly, builder.FileNameHandler);
             return builder;
         }
 
         public static ConfigurationBuilder<T> FromFile<T>(this ConfigurationBuilder<T> builder, string path)
         {
-            builder.Reader = new FileReader(path);
+            builder.Reader = new FileReader(path, builder.FileNameHandler);
             return builder;
         }
 

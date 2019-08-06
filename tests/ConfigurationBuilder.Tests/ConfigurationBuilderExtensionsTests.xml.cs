@@ -1,4 +1,6 @@
 using ConfigurationBuilder.Tests.Config.Xml;
+using ConfigurationBuilder.Tests.TestData;
+using FluentAssertions;
 using Xunit;
 
 namespace ConfigurationBuilder.Tests
@@ -15,7 +17,7 @@ namespace ConfigurationBuilder.Tests
                 .Build();
 
             // Assert
-            AssertHasCorrectValues(configuration);
+            configuration.Should().BeEquivalentTo(ConfigurationTestData.GetExpected());
         }
 
         [Fact]
@@ -28,7 +30,7 @@ namespace ConfigurationBuilder.Tests
                 .Build();
 
             // Assert
-            AssertHasCorrectValues(configuration);
+            configuration.Should().BeEquivalentTo(ConfigurationTestData.GetExpected());
         }
     }
 }

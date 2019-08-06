@@ -2,7 +2,8 @@
 {
     public class Configuration : IConfiguration
     {
-        public string Authority { get; set; }
+        public string ApiUrl { get; set; }
+        public string ApiVersion { get; set; }
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
     }
