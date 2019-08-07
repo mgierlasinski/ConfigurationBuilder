@@ -2,13 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0.0</Version>
     <Authors>Marcin Gierlasiński</Authors>
     <Company>Marcin Gierlasiński</Company>
+    <Description>Create application configuration for different environments.</Description>
     <PackageProjectUrl>https://github.com/mgierlasinski/ConfigurationBuilder/</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageTags>configuration json</PackageTags>
-    <Description>Create application configuration for different environments.</Description>
-    <Version>0.0.1-alpha</Version>
+    <PackageTags>configuration xml json yaml</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/mgierlasinski/ConfigurationBuilder/master/assets/icon.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>

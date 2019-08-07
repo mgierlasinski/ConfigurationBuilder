@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0.0</Version>
+    <Authors>Marcin Gierlasiński</Authors>
+    <Company>Marcin Gierlasiński</Company>
+    <Description>JSON extensions for ConfigurationBuilder.</Description>
+    <PackageProjectUrl>https://github.com/mgierlasinski/ConfigurationBuilder/</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageTags>configuration xml json yaml</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/mgierlasinski/ConfigurationBuilder/master/assets/icon.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,6 +18,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConfigurationBuilder\ConfigurationBuilder.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,8 @@
 
 &nbsp; | ConfigurationBuilder | ConfigurationBuilder.Json | ConfigurationBuilder.Yaml
 --- | --- | --- | ---
-NuGet | [![Nuget](https://img.shields.io/nuget/v/ConfigurationBuilder)](https://www.nuget.org/packages/ConfigurationBuilder) | TODO | TODO
+NuGet | [![Nuget](https://img.shields.io/nuget/v/ConfigurationBuilder)](https://www.nuget.org/packages/ConfigurationBuilder) | [![Nuget](https://img.shields.io/nuget/v/ConfigurationBuilder.Json)](https://www.nuget.org/packages/ConfigurationBuilder.Json) | [![Nuget](https://img.shields.io/nuget/v/ConfigurationBuilder.Yaml)](https://www.nuget.org/packages/ConfigurationBuilder.Yaml)
+
 
 ## Supported sources and formats
 
@@ -111,7 +112,7 @@ Process configuration for development enviroment, `Configuration.json` and `Conf
 var configuration = new ConfigurationBuilder<Configuration>()
     .FromFile("Path\\To\\Configuration.json")
     .AsJsonFormat()
-    .BuildEnvironment("dev");
+    .BuildForEnvironment("dev");
 ```
 
 ### Reading yaml configuration
@@ -134,3 +135,6 @@ var configuration = new ConfigurationBuilder<Configuration>()
     .AsYamlFormat()
     .Build();
 ```
+
+---
+Original icon made by [devendra karkar](https://www.iconfinder.com/dev-patel) from [icon-icons.com](https://icon-icons.com/) is licensed by [CC 4.0 BY](https://creativecommons.org/licenses/by/4.0/)
