@@ -12,7 +12,7 @@ namespace Weather.Api
             var configuration = new ConfigurationBuilder<ClientConfiguration>()
                 .FromResource("Weather.Api.Config.ClientConfiguration.json")
                 .AsJsonFormat()
-                .Build();
+                .BuildForEnvironment("dev");
 
             var client = new WeatherClient(configuration.ApiUrl);
             var service = new WeatherService(client, configuration);

@@ -19,21 +19,54 @@ NuGet | [![Nuget](https://img.shields.io/nuget/v/ConfigurationBuilder)](https://
 Extension | `AsXmlFormat()` | `AsJsonFormat()` | `AsYamlFormat()`
 Package | `ConfigurationBuilder` | `ConfigurationBuilder.Json` | `ConfigurationBuilder.Yaml`
 Implementation | `DataContractSerializer` | `Newtonsoft.Json` | `YamlDotNet`
+Environment configuration | ❌ | ✔️ | ❌
 
 ## Samples
 
+### Setup builder
+
+```c#
+var builder = new ConfigurationBuilder<Configuration>()
+    .Setup(x => x.FileNameHandler = new CustomFileNameHandler());
+```
+
 ### Reading xml configuration
+
+- Configuration.cs (add `DataContractSerializer` attributes for proper serialization)
+
+``` c#
+[DataContract(Name = "Configuration", Namespace = "http://www.contoso.com")]
+public class Configuration : IConfiguration
+{
+    [DataMember]
+    public string ApiUrl { get; set; }
+
+    [DataMember]
+    public string ApiVersion { get; set; }
+
+    [DataMember]
+    public string ClientId { get; set; }
+
+    [DataMember]
+    public string ClientSecret { get; set; }
+}
+```
+
+- Configuration.xml
 
 ``` xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration xmlns="http://www.contoso.com">
-  <Authority>https://test.domain.com</Authority>
+  <ApiUrl>https://test.domain.com</ApiUrl>
+  <ApiVersion>1.0</ApiVersion>
   <ClientId>api_client</ClientId>
   <ClientSecret>zdFpegWRoCac2dPQpPn1</ClientSecret>
 </Configuration>
 ```
 
-```c#
+- Client.cs
+
+``` c#
  var configuration = new ConfigurationBuilder<Configuration>()
     .FromResource("Full.Namespace.Of.Configuration.xml")
     .AsXmlFormat()
@@ -42,13 +75,28 @@ Implementation | `DataContractSerializer` | `Newtonsoft.Json` | `YamlDotNet`
 
 ### Reading json configuration
 
+- Configuration.json
+
 ``` json
 {
-  "Authority": "https://test.domain.com",
+  "ApiUrl": "https://test.domain.com",
+  "ApiVersion": "1.0",
   "ClientId": "api_client",
   "ClientSecret": "zdFpegWRoCac2dPQpPn1"
 }
 ```
+
+- Configuration.dev.json (override for development environment)
+
+``` json
+{
+  "ClientSecret": "MhYzHEnEUGhuvMRdWcqo"
+}
+```
+
+- Client.cs 
+
+Read basic configuration, only `Configuration.json` will be processed.
 
 ```c#
 var configuration = new ConfigurationBuilder<Configuration>()
@@ -57,14 +105,28 @@ var configuration = new ConfigurationBuilder<Configuration>()
     .Build();
 ```
 
+Process configuration for development enviroment, `Configuration.json` and `Configuration.dev.json` will be merged.
+
+```c#
+var configuration = new ConfigurationBuilder<Configuration>()
+    .FromFile("Path\\To\\Configuration.json")
+    .AsJsonFormat()
+    .BuildEnvironment("dev");
+```
+
 ### Reading yaml configuration
+
+- Configuration.yaml
 
 ``` yaml
 ---
-authority: https://test.domain.com
+apiUrl: https://test.domain.com
+apiVersion: 1.0
 clientId: api_client
 clientSecret: zdFpegWRoCac2dPQpPn1
 ```
+
+- Client.cs
 
 ```c#
 var configuration = new ConfigurationBuilder<Configuration>()
