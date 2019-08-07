@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace ConfigurationBuilder.Processors
@@ -16,9 +16,9 @@ namespace ConfigurationBuilder.Processors
             }
         }
 
-        public Task<T> ProcessContentAsync(string content)
+        public T MergeContents(params string[] contents)
         {
-            return Task.FromResult(ProcessContent(content));
+            throw new NotImplementedException("Merging multiple configurations is currently not supported by XML");
         }
     }
 }

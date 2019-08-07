@@ -1,44 +1,51 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace ConfigurationBuilder.Readers
 {
     public class EmbeddedResourceReader : IContentReader
     {
+        private readonly string _path;
         private readonly Assembly _assembly;
-        private readonly string _filePath;
+        private readonly IFileNameHandler _fileNameHandler;
 
-        public EmbeddedResourceReader(string filePath, Assembly assembly)
+        public EmbeddedResourceReader(string path, Assembly assembly, IFileNameHandler fileNameHandler)
         {
-            _filePath = filePath;
+            _path = path;
             _assembly = assembly;
+            _fileNameHandler = fileNameHandler;
         }
 
         public string ReadContent()
         {
-            string file;
+            return ReadTextFromPath(_path);
+        }
 
-            using (var stream = _assembly.GetManifestResourceStream(_filePath))
+        public string ReadContentForEnvironment(string environment)
+        {
+            var envPath = _fileNameHandler.GetFilePathForEnvironment(_path, environment);
+            return ReadTextFromPath(envPath);
+        }
+
+        private string ReadTextFromPath(string path)
+        {
+            string content;
+
+            using (var stream = _assembly.GetManifestResourceStream(path))
             {
                 if (stream == null)
                 {
-                    throw new ArgumentException($"Cannot read file at {_filePath}. Make sure you entered full namespace and file has Build Action set to Embedded Resource");
+                    throw new ArgumentException($"Cannot read file at {path}. Make sure you entered full namespace and file has Build Action set to Embedded Resource");
                 }
 
                 using (var reader = new StreamReader(stream))
                 {
-                    file = reader.ReadToEnd();
+                    content = reader.ReadToEnd();
                 }
             }
 
-            return file;
-        }
-
-        public Task<string> ReadContentAsync()
-        {
-            return Task.FromResult(ReadContent());
+            return content;
         }
     }
 }

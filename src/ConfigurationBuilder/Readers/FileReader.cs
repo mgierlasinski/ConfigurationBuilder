@@ -1,25 +1,32 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 
 namespace ConfigurationBuilder.Readers
 {
     public class FileReader : IContentReader
     {
         private readonly string _path;
+        private readonly IFileNameHandler _fileNameHandler;
 
-        public FileReader(string path)
+        public FileReader(string path, IFileNameHandler fileNameHandler)
         {
             _path = path;
+            _fileNameHandler = fileNameHandler;
         }
 
         public string ReadContent()
         {
-            return File.ReadAllText(_path);
+            return ReadTextFromPath(_path);
         }
 
-        public Task<string> ReadContentAsync()
+        public string ReadContentForEnvironment(string environment)
         {
-            return Task.FromResult(ReadContent());
+            var envPath = _fileNameHandler.GetFilePathForEnvironment(_path, environment);
+            return ReadTextFromPath(envPath);
+        }
+
+        public string ReadTextFromPath(string path)
+        {
+            return File.ReadAllText(path);
         }
     }
 }

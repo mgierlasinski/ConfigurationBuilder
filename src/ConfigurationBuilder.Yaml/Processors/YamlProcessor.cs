@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System;
+using System.IO;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -16,9 +16,9 @@ namespace ConfigurationBuilder.Yaml.Processors
             return deserializer.Deserialize<T>(new StringReader(content));
         }
 
-        public Task<T> ProcessContentAsync(string content)
+        public T MergeContents(params string[] contents)
         {
-            return Task.FromResult(ProcessContent(content));
+            throw new NotImplementedException("Merging multiple configurations is currently not supported by Yaml");
         }
     }
 }

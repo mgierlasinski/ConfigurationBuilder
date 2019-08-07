@@ -1,20 +1,27 @@
 ﻿using ConfigurationBuilder.Processors;
 using ConfigurationBuilder.Readers;
+using System;
 using System.Reflection;
 
 namespace ConfigurationBuilder
 {
     public static class ConfigurationBuilderExtensions
     {
+        public static ConfigurationBuilder<T> Setup<T>(this ConfigurationBuilder<T> builder, Action<ConfigurationBuilder<T>> action)
+        {
+            action(builder);
+            return builder;
+        }
+
         public static ConfigurationBuilder<T> FromResource<T>(this ConfigurationBuilder<T> builder, string path, Assembly assembly = null)
         {
-            builder.Reader = new EmbeddedResourceReader(path, assembly ?? typeof(T).Assembly);
+            builder.Reader = new EmbeddedResourceReader(path, assembly ?? typeof(T).Assembly, builder.FileNameHandler);
             return builder;
         }
 
         public static ConfigurationBuilder<T> FromFile<T>(this ConfigurationBuilder<T> builder, string path)
         {
-            builder.Reader = new FileReader(path);
+            builder.Reader = new FileReader(path, builder.FileNameHandler);
             return builder;
         }
 

@@ -1,11 +1,9 @@
-﻿using System.Threading.Tasks;
-
-namespace ConfigurationBuilder
+﻿namespace ConfigurationBuilder
 {
     public interface IContentProcessor<T>
     {
         T ProcessContent(string content);
 
-        Task<T> ProcessContentAsync(string content);
+        T MergeContents(params string[] contents);
     }
 }

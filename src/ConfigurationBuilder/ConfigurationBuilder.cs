@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-
-namespace ConfigurationBuilder
+﻿namespace ConfigurationBuilder
 {
     public class ConfigurationBuilder<T>
     {
         public IContentReader Reader { get; set; }
         public IContentProcessor<T> Processor { get; set; }
+        public IFileNameHandler FileNameHandler { get; set; } = new FileNameHandler();
 
         public T Build()
         {
@@ -13,10 +12,12 @@ namespace ConfigurationBuilder
             return Processor.ProcessContent(content);
         }
 
-        public async Task<T> BuildAsync()
+        public T BuildForEnvironment(string environment)
         {
-            var content = await Reader.ReadContentAsync();
-            return await Processor.ProcessContentAsync(content);
+            var content = Reader.ReadContent();
+            var envContent = Reader.ReadContentForEnvironment(environment);
+
+            return Processor.MergeContents(content, envContent);
         }
     }
 }

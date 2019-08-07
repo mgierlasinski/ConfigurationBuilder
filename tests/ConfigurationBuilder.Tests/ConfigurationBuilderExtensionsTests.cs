@@ -1,44 +1,27 @@
 using ConfigurationBuilder.Tests.Config;
-using ConfigurationBuilder.Tests.Config.Xml;
 using FluentAssertions;
+using NSubstitute;
 using Xunit;
 
 namespace ConfigurationBuilder.Tests
 {
-    public class ConfigurationBuilderExtensionsTests
+    public partial class ConfigurationBuilderExtensionsTests
     {
         [Fact]
-        public void AsXmlFromResource_FileExists_CorrectConfiguration()
+        public void Setup_CustomFileNameHandler_HandlerConfigured()
         {
+            // Arrange
+            var handler = Substitute.For<IFileNameHandler>();
+            handler.GetFilePathForEnvironment(
+                Arg.Any<string>(), Arg.Any<string>()).Returns("Config.dev.ext");
+
             // Act
-            var configuration = new ConfigurationBuilder<ConfigurationXml>()
-                .FromResource("ConfigurationBuilder.Tests.Config.Xml.ResourceConfig.xml")
-                .AsXmlFormat()
-                .Build();
+            var builder = new ConfigurationBuilder<Configuration>()
+                .Setup(x => x.FileNameHandler = handler);
 
             // Assert
-            AssertHasCorrectValues(configuration);
-        }
-
-        [Fact]
-        public void AsXmlFromFile_FileExists_CorrectConfiguration()
-        {
-            // Act
-            var configuration = new ConfigurationBuilder<ConfigurationXml>()
-                .FromFile("Config\\Xml\\CopyConfig.xml")
-                .AsXmlFormat()
-                .Build();
-
-            // Assert
-            AssertHasCorrectValues(configuration);
-        }
-
-        private void AssertHasCorrectValues(IConfiguration configuration)
-        {
-            configuration.Should().NotBeNull();
-            configuration.Authority.Should().Be("https://test.domain.com");
-            configuration.ClientId.Should().Be("api_client");
-            configuration.ClientSecret.Should().Be("zdFpegWRoCac2dPQpPn1");
+            builder.FileNameHandler.GetFilePathForEnvironment("Config.ext", "dev")
+                .Should().Be("Config.dev.ext");
         }
     }
 }

@@ -1,4 +1,5 @@
 ---
-authority: https://test.domain.com
+apiUrl: https://test.domain.com
+apiVersion: 1.0
 clientId: api_client
 clientSecret: zdFpegWRoCac2dPQpPn1

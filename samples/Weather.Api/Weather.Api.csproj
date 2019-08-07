@@ -5,10 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Config\ClientConfiguration.dev.json" />
     <None Remove="Config\ClientConfiguration.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Config\ClientConfiguration.dev.json" />
     <EmbeddedResource Include="Config\ClientConfiguration.json" />
   </ItemGroup>
 

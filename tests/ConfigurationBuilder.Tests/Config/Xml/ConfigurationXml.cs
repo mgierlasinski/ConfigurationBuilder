@@ -6,7 +6,10 @@ namespace ConfigurationBuilder.Tests.Config.Xml
     public class ConfigurationXml : IConfiguration
     {
         [DataMember]
-        public string Authority { get; set; }
+        public string ApiUrl { get; set; }
+
+        [DataMember]
+        public string ApiVersion { get; set; }
 
         [DataMember]
         public string ClientId { get; set; }

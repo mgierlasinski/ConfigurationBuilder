@@ -1,5 +1,6 @@
 {
-  "Authority": "https://test.domain.com",
+  "ApiUrl": "https://test.domain.com",
+  "ApiVersion": "1.0",
   "ClientId": "api_client",
   "ClientSecret": "zdFpegWRoCac2dPQpPn1"
 }

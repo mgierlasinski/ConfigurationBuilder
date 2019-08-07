@@ -2,8 +2,9 @@
 {
     public interface IConfiguration
     {
-        string Authority { get; }
-        string ClientId { get; }
-        string ClientSecret { get; }
+        string ApiUrl { get; set; }
+        string ApiVersion { get; set; }
+        string ClientId { get; set; }
+        string ClientSecret { get; set; }
     }
 }
