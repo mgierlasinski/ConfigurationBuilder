@@ -1,20 +1,17 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 
 namespace ConfigurationBuilder.Readers
 {
     public class EmbeddedResourceReader : IContentReader
     {
         private readonly string _path;
-        private readonly Assembly _assembly;
-        private readonly IFileNameHandler _fileNameHandler;
+        private readonly EmbeddedResourceReaderOptions _options;
 
-        public EmbeddedResourceReader(string path, Assembly assembly, IFileNameHandler fileNameHandler)
+        public EmbeddedResourceReader(string path, EmbeddedResourceReaderOptions options)
         {
             _path = path;
-            _assembly = assembly;
-            _fileNameHandler = fileNameHandler;
+            _options = options;
         }
 
         public string ReadContent()
@@ -24,7 +21,7 @@ namespace ConfigurationBuilder.Readers
 
         public string ReadContentForEnvironment(string environment)
         {
-            var envPath = _fileNameHandler.GetFilePathForEnvironment(_path, environment);
+            var envPath = _options.FileNameHandler.GetFilePathForEnvironment(_path, environment);
             return ReadTextFromPath(envPath);
         }
 
@@ -32,7 +29,7 @@ namespace ConfigurationBuilder.Readers
         {
             string content;
 
-            using (var stream = _assembly.GetManifestResourceStream(path))
+            using (var stream = _options.Assembly.GetManifestResourceStream(path))
             {
                 if (stream == null)
                 {

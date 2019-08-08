@@ -2,6 +2,7 @@
 using FluentAssertions;
 using System;
 using System.IO;
+using ConfigurationBuilder.Tests.Fixtures;
 using Xunit;
 
 namespace ConfigurationBuilder.Tests.Readers
@@ -12,7 +13,7 @@ namespace ConfigurationBuilder.Tests.Readers
         public void ReadContent_ExistingFile_NotEmptyResult()
         {
             // Arrange
-            var reader = new FileReader("Config\\Json\\CopyConfig.json", new FileNameHandler());
+            var reader = new ReaderFixture().CreateFileReader("Config\\Json\\CopyConfig.json");
 
             // Act
             var content = reader.ReadContent();
@@ -25,7 +26,7 @@ namespace ConfigurationBuilder.Tests.Readers
         public void ReadContent_NotExistingFile_ThrowsFileNotFoundException()
         {
             // Arrange
-            var reader = new FileReader("CopyConfig.json", new FileNameHandler());
+            var reader = new ReaderFixture().CreateFileReader("CopyConfig.json");
 
             // Act
             Action action = () => reader.ReadContent();
@@ -38,7 +39,7 @@ namespace ConfigurationBuilder.Tests.Readers
         public void ReadContentForEnvironment_ExistingFile_NotEmptyResult()
         {
             // Arrange
-            var reader = new FileReader("Config\\Json\\CopyConfig.json", new FileNameHandler());
+            var reader = new ReaderFixture().CreateFileReader("Config\\Json\\CopyConfig.json");
 
             // Act
             var content = reader.ReadContentForEnvironment("dev");
@@ -51,7 +52,7 @@ namespace ConfigurationBuilder.Tests.Readers
         public void ReadContentForEnvironment_NotExistingFile_ThrowsFileNotFoundException()
         {
             // Arrange
-            var reader = new FileReader("Config\\Json\\CopyConfig.json", new FileNameHandler());
+            var reader = new ReaderFixture().CreateFileReader("Config\\Json\\CopyConfig.json");
 
             // Act
             Action action = () => reader.ReadContentForEnvironment("test");

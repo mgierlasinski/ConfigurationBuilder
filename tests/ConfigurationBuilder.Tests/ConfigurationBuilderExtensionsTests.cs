@@ -1,4 +1,5 @@
 using ConfigurationBuilder.Tests.Config;
+using ConfigurationBuilder.Tests.TestData;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
@@ -8,20 +9,38 @@ namespace ConfigurationBuilder.Tests
     public partial class ConfigurationBuilderExtensionsTests
     {
         [Fact]
-        public void Setup_CustomFileNameHandler_HandlerConfigured()
+        public void Setup_CustomReader_ReadContentByCustomImplementation()
         {
             // Arrange
-            var handler = Substitute.For<IFileNameHandler>();
-            handler.GetFilePathForEnvironment(
-                Arg.Any<string>(), Arg.Any<string>()).Returns("Config.dev.ext");
+            var reader = Substitute.For<IContentReader>();
+            reader.ReadContent().Returns("Mock content");
+            reader.ReadContentForEnvironment(Arg.Any<string>()).Returns("Mock content for env");
 
             // Act
             var builder = new ConfigurationBuilder<Configuration>()
-                .Setup(x => x.FileNameHandler = handler);
+                .Setup(x => x.Reader = reader);
 
             // Assert
-            builder.FileNameHandler.GetFilePathForEnvironment("Config.ext", "dev")
-                .Should().Be("Config.dev.ext");
+            builder.Reader.ReadContent().Should().Be("Mock content");
+            builder.Reader.ReadContentForEnvironment("dev").Should().Be("Mock content for env");
+        }
+
+        [Fact]
+        public void Setup_CustomProcessor_ProcessContentByCustomImplementation()
+        {
+            // Arrange
+            var configuration = ConfigurationTestData.GetExpected();
+            configuration.ClientId = "mocked_implementation";
+
+            var processor = Substitute.For<IContentProcessor<Configuration>>();
+            processor.ProcessContent(Arg.Any<string>()).Returns(configuration);
+
+            // Act
+            var builder = new ConfigurationBuilder<Configuration>()
+                .Setup(x => x.Processor = processor);
+
+            // Assert
+            builder.Processor.ProcessContent("test").Should().BeEquivalentTo(configuration);
         }
     }
 }
