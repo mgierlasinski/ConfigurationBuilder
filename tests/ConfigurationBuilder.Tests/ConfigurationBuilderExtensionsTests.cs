@@ -29,18 +29,17 @@ namespace ConfigurationBuilder.Tests
         public void Setup_CustomProcessor_ProcessContentByCustomImplementation()
         {
             // Arrange
-            var configuration = ConfigurationTestData.GetExpected();
-            configuration.ClientId = "mocked_implementation";
+            var expected = ConfigurationTestData.GetExpected(clientId: "mocked_implementation");
 
             var processor = Substitute.For<IContentProcessor<Configuration>>();
-            processor.ProcessContent(Arg.Any<string>()).Returns(configuration);
+            processor.ProcessContent(Arg.Any<string>()).Returns(expected);
 
             // Act
             var builder = new ConfigurationBuilder<Configuration>()
                 .Setup(x => x.Processor = processor);
 
             // Assert
-            builder.Processor.ProcessContent("test").Should().BeEquivalentTo(configuration);
+            builder.Processor.ProcessContent("test").Should().BeEquivalentTo(expected);
         }
     }
 }

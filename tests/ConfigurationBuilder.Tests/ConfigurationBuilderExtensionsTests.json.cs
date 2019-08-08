@@ -22,9 +22,8 @@ namespace ConfigurationBuilder.Tests
         }
 
         [Theory]
-        [InlineData("dev", "api_client_dev", "client_secret_dev")]
-        [InlineData("prod", "api_client_prod", "client_secret_prod")]
-        public void AsJsonFromResourceBuildEnvironment_FileExists_CorrectConfiguration(string env, string client, string secret)
+        [MemberData(nameof(ConfigurationTestData.EnvironmentConfiguration), MemberType = typeof(ConfigurationTestData))]
+        public void AsJsonFromResourceBuildEnvironment_FileExists_CorrectConfiguration(string env, IConfiguration expected)
         {
             // Act
             var configuration = new ConfigurationBuilder<Configuration>()
@@ -33,10 +32,6 @@ namespace ConfigurationBuilder.Tests
                 .BuildForEnvironment(env);
 
             // Assert
-            var expected = ConfigurationTestData.GetExpected();
-            expected.ClientId = client;
-            expected.ClientSecret = secret;
-
             configuration.Should().BeEquivalentTo(expected);
         }
 

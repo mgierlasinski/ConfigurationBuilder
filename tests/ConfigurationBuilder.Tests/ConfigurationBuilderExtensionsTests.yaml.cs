@@ -20,6 +20,20 @@ namespace ConfigurationBuilder.Tests
             configuration.Should().BeEquivalentTo(ConfigurationTestData.GetExpected());
         }
 
+        [Theory]
+        [MemberData(nameof(ConfigurationTestData.EnvironmentConfiguration), MemberType = typeof(ConfigurationTestData))]
+        public void AsYamlFromResourceBuildEnvironment_FileExists_CorrectConfiguration(string env, IConfiguration expected)
+        {
+            // Act
+            var configuration = new ConfigurationBuilder<Configuration>()
+                .FromResource("ConfigurationBuilder.Tests.Config.Yaml.ResourceConfig.yaml")
+                .AsYamlFormat()
+                .BuildForEnvironment(env);
+
+            // Assert
+            configuration.Should().BeEquivalentTo(expected);
+        }
+
         [Fact]
         public void AsYamlFromFile_FileExists_CorrectConfiguration()
         {

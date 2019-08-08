@@ -20,7 +20,7 @@ NuGet | [![Nuget](https://img.shields.io/nuget/v/ConfigurationBuilder)](https://
 Extension | `AsXmlFormat()` | `AsJsonFormat()` | `AsYamlFormat()`
 Package | `ConfigurationBuilder` | `ConfigurationBuilder.Json` | `ConfigurationBuilder.Yaml`
 Implementation | `DataContractSerializer` | `Newtonsoft.Json` | `YamlDotNet`
-Environment configuration | ❌ | ✔️ | ❌
+Merge files | ❌ | ✔️ | ✔️
 
 ## Samples
 
@@ -28,7 +28,11 @@ Environment configuration | ❌ | ✔️ | ❌
 
 ```c#
 var builder = new ConfigurationBuilder<Configuration>()
-    .Setup(x => x.FileNameHandler = new CustomFileNameHandler());
+    .Setup(x =>
+    {
+        x.Reader = new MyCustomReader();
+        x.Processor = new MyCustomProcessor();
+    });
 ```
 
 ### Reading xml configuration
@@ -87,14 +91,6 @@ public class Configuration : IConfiguration
 }
 ```
 
-- Configuration.dev.json (override for development environment)
-
-``` json
-{
-  "ClientSecret": "MhYzHEnEUGhuvMRdWcqo"
-}
-```
-
 - Client.cs 
 
 Read basic configuration, only `Configuration.json` will be processed.
@@ -104,15 +100,6 @@ var configuration = new ConfigurationBuilder<Configuration>()
     .FromFile("Path\\To\\Configuration.json")
     .AsJsonFormat()
     .Build();
-```
-
-Process configuration for development enviroment, `Configuration.json` and `Configuration.dev.json` will be merged.
-
-```c#
-var configuration = new ConfigurationBuilder<Configuration>()
-    .FromFile("Path\\To\\Configuration.json")
-    .AsJsonFormat()
-    .BuildForEnvironment("dev");
 ```
 
 ### Reading yaml configuration
@@ -134,6 +121,31 @@ var configuration = new ConfigurationBuilder<Configuration>()
     .FromFile("Path\\To\\Configuration.yaml")
     .AsYamlFormat()
     .Build();
+```
+
+### Merge multiple configuration files
+
+You can create environment specific configuration that will extend or override properties from base file. If you want to make changes for development setup, create file following convetion:
+
+`{BaseFile}.{Environment}.{Format}`
+
+You can provide custom convention by implementing `IFileNameHandler` and passing it as option to `FromResource()` or `FromFile()` extension, depending on reading method.
+
+To override `Clientsecret` from `Configuration.json` on `dev` evironment create file `Configuration.dev.json` with the following content:
+
+``` json
+{
+  "ClientSecret": "MhYzHEnEUGhuvMRdWcqo"
+}
+```
+
+Use `BuildForEnvironment()` to build configuration combining files `Configuration.json` and `Configuration.dev.json`.
+
+```c#
+var configuration = new ConfigurationBuilder<Configuration>()
+    .FromFile("Path\\To\\Configuration.json")
+    .AsJsonFormat()
+    .BuildForEnvironment("dev");
 ```
 
 ---
