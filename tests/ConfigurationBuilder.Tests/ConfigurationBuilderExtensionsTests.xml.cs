@@ -1,4 +1,4 @@
-using ConfigurationBuilder.Tests.Config.Xml;
+using ConfigurationBuilder.Tests.Config;
 using ConfigurationBuilder.Tests.TestData;
 using FluentAssertions;
 using Xunit;
@@ -11,7 +11,7 @@ namespace ConfigurationBuilder.Tests
         public void AsXmlFromResource_FileExists_CorrectConfiguration()
         {
             // Act
-            var configuration = new ConfigurationBuilder<ConfigurationXml>()
+            var configuration = new ConfigurationBuilder<Configuration>()
                 .FromResource("ConfigurationBuilder.Tests.Config.Xml.ResourceConfig.xml")
                 .AsXmlFormat()
                 .Build();
@@ -24,7 +24,7 @@ namespace ConfigurationBuilder.Tests
         public void AsXmlFromFile_FileExists_CorrectConfiguration()
         {
             // Act
-            var configuration = new ConfigurationBuilder<ConfigurationXml>()
+            var configuration = new ConfigurationBuilder<Configuration>()
                 .FromFile("Config\\Xml\\CopyConfig.xml")
                 .AsXmlFormat()
                 .Build();

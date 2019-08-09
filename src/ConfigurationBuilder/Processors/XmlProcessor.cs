@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Xml;
+using System.Xml.Serialization;
 
 namespace ConfigurationBuilder.Processors
 {
@@ -9,11 +8,8 @@ namespace ConfigurationBuilder.Processors
     {
         public T ProcessContent(string content)
         {
-            using (var xmlReader = XmlReader.Create(new StringReader(content)))
-            {
-                var serializer = new DataContractSerializer(typeof(T));
-                return (T)serializer.ReadObject(xmlReader);
-            }
+            var serializer = new XmlSerializer(typeof(T));
+            return (T)serializer.Deserialize(new StringReader(content));
         }
 
         public T MergeContents(params string[] contents)

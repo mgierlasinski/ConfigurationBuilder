@@ -4,22 +4,69 @@
 --- | --- | --- | ---
 NuGet | [![Nuget](https://img.shields.io/nuget/v/ConfigurationBuilder)](https://www.nuget.org/packages/ConfigurationBuilder) | [![Nuget](https://img.shields.io/nuget/v/ConfigurationBuilder.Json)](https://www.nuget.org/packages/ConfigurationBuilder.Json) | [![Nuget](https://img.shields.io/nuget/v/ConfigurationBuilder.Yaml)](https://www.nuget.org/packages/ConfigurationBuilder.Yaml)
 
+## Sources
 
-## Supported sources and formats
+### Embedded resource
 
-### Sources
+To process file with `Build Action` set to `Embedded Resource` call `FromResource()` extension. Optionally pass options of type `EmbeddedResourceReaderOptions` as a parameter to customize reading operation.
 
-- files copied to output - `FromFile()` extension
-- files compiled as embedded resource - `FromResource()` extension
-- memory content as string - `FromString()` extension
+- Basic usage
 
-### Formats
+``` c#
+FromResource("Namespace.Of.Project.Config.Configuration.json")
+```
+
+- With options
+
+``` c#
+FromResource("Namespace.Of.Project.Config.Configuration.json", options => options
+  .FromAssembly(assembly)
+  .WithFileNameHandler(handler))
+```
+
+Available options:
+- `FromAssembly` - pass custom assembly (when configuration file belongs to defferent assembly that it's c# class)
+- `WithFileNameHandler` - define custom file handling convention
+
+### File in storage
+
+To process file with selected option `Copy to output` call `FromFile()` extension. Optionally pass options of type `FileReaderOptions` as a parameter to customize reading operation.
+
+- Basic usage
+
+``` c#
+FromFile("Path\\To\\Configuration.json")
+```
+
+- With options
+
+``` c#
+FromFile("Path\\To\\Configuration.json", options => options
+  .WithFileNameHandler(handler))
+```
+
+Available options:
+- `WithFileNameHandler` - define custom file handling convention
+
+### In-Memory content
+
+- Basic usage
+
+``` c#
+FromString("{" + 
+      "\"ApiUrl\": \"https://test.domain.com\", " +
+      "\"ApiVersion\": \"1.0\", " +
+      "\"ClientId\": \"api_client\", " + 
+      "\"ClientSecret\": \"zdFpegWRoCac2dPQpPn1\" }")
+```
+
+## Formats
 
 &nbsp; | xml | json | yaml
 --- | --- | ---| ---
 Extension | `AsXmlFormat()` | `AsJsonFormat()` | `AsYamlFormat()`
 Package | `ConfigurationBuilder` | `ConfigurationBuilder.Json` | `ConfigurationBuilder.Yaml`
-Implementation | `DataContractSerializer` | `Newtonsoft.Json` | `YamlDotNet`
+Implementation | `XmlSerializer` | `Newtonsoft.Json` | `YamlDotNet`
 Merge files | ❌ | ✔️ | ✔️
 
 ## Samples
@@ -37,31 +84,11 @@ var builder = new ConfigurationBuilder<Configuration>()
 
 ### Reading xml configuration
 
-- Configuration.cs (add `DataContractSerializer` attributes for proper serialization)
-
-``` c#
-[DataContract(Name = "Configuration", Namespace = "http://www.contoso.com")]
-public class Configuration : IConfiguration
-{
-    [DataMember]
-    public string ApiUrl { get; set; }
-
-    [DataMember]
-    public string ApiVersion { get; set; }
-
-    [DataMember]
-    public string ClientId { get; set; }
-
-    [DataMember]
-    public string ClientSecret { get; set; }
-}
-```
-
 - Configuration.xml
 
 ``` xml
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration xmlns="http://www.contoso.com">
+<Configuration>
   <ApiUrl>https://test.domain.com</ApiUrl>
   <ApiVersion>1.0</ApiVersion>
   <ClientId>api_client</ClientId>
@@ -123,7 +150,7 @@ var configuration = new ConfigurationBuilder<Configuration>()
     .Build();
 ```
 
-### Merge multiple configuration files
+## Merge multiple configuration files
 
 You can create environment specific configuration that will extend or override properties from base file. If you want to make changes for development setup, create file following convetion:
 
