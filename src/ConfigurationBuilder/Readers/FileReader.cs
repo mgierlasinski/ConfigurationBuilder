@@ -5,12 +5,12 @@ namespace ConfigurationBuilder.Readers
     public class FileReader : IContentReader
     {
         private readonly string _path;
-        private readonly IFileNameHandler _fileNameHandler;
+        private readonly FileReaderOptions _options;
 
-        public FileReader(string path, IFileNameHandler fileNameHandler)
+        public FileReader(string path, FileReaderOptions options)
         {
             _path = path;
-            _fileNameHandler = fileNameHandler;
+            _options = options;
         }
 
         public string ReadContent()
@@ -20,7 +20,7 @@ namespace ConfigurationBuilder.Readers
 
         public string ReadContentForEnvironment(string environment)
         {
-            var envPath = _fileNameHandler.GetFilePathForEnvironment(_path, environment);
+            var envPath = _options.FileNameHandler.GetFilePathForEnvironment(_path, environment);
             return ReadTextFromPath(envPath);
         }
 

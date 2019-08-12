@@ -1,4 +1,5 @@
 ﻿using ConfigurationBuilder.Readers;
+using ConfigurationBuilder.Tests.Config;
 
 namespace ConfigurationBuilder.Tests.Fixtures
 {
@@ -6,8 +7,14 @@ namespace ConfigurationBuilder.Tests.Fixtures
     {
         public EmbeddedResourceReader CreateEmbeddedResourceReader(string fileName)
         {
-            return new EmbeddedResourceReader($"ConfigurationBuilder.Tests.{fileName}",
-                typeof(ReaderFixture).Assembly, new FileNameHandler());
+            var options = new EmbeddedResourceReaderOptions<Configuration>();
+            return new EmbeddedResourceReader($"ConfigurationBuilder.Tests.{fileName}", options);
+        }
+
+        public FileReader CreateFileReader(string fileName)
+        {
+            var options = new FileReaderOptions();
+            return new FileReader(fileName, options);
         }
     }
 }

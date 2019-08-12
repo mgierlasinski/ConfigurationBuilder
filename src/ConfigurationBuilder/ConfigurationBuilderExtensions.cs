@@ -1,7 +1,6 @@
 ﻿using ConfigurationBuilder.Processors;
 using ConfigurationBuilder.Readers;
 using System;
-using System.Reflection;
 
 namespace ConfigurationBuilder
 {
@@ -13,15 +12,21 @@ namespace ConfigurationBuilder
             return builder;
         }
 
-        public static ConfigurationBuilder<T> FromResource<T>(this ConfigurationBuilder<T> builder, string path, Assembly assembly = null)
+        public static ConfigurationBuilder<T> FromResource<T>(this ConfigurationBuilder<T> builder, string path, Action<EmbeddedResourceReaderOptions> setupOptions = null)
         {
-            builder.Reader = new EmbeddedResourceReader(path, assembly ?? typeof(T).Assembly, builder.FileNameHandler);
+            var options = new EmbeddedResourceReaderOptions<T>();
+            setupOptions?.Invoke(options);
+
+            builder.Reader = new EmbeddedResourceReader(path, options);
             return builder;
         }
 
-        public static ConfigurationBuilder<T> FromFile<T>(this ConfigurationBuilder<T> builder, string path)
+        public static ConfigurationBuilder<T> FromFile<T>(this ConfigurationBuilder<T> builder, string path, Action<FileReaderOptions> setupOptions = null)
         {
-            builder.Reader = new FileReader(path, builder.FileNameHandler);
+            var options = new FileReaderOptions();
+            setupOptions?.Invoke(options);
+
+            builder.Reader = new FileReader(path, options);
             return builder;
         }
 

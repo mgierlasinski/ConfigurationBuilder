@@ -11,6 +11,8 @@
     <None Remove="Config\Json\ResourceConfig.json" />
     <None Remove="Config\Json\ResourceConfig.prod.json" />
     <None Remove="Config\Xml\ResourceConfig.xml" />
+    <None Remove="Config\Yaml\ResourceConfig.dev.yaml" />
+    <None Remove="Config\Yaml\ResourceConfig.prod.yaml" />
     <None Remove="Config\Yaml\ResourceConfig.yaml" />
   </ItemGroup>
 
@@ -19,6 +21,8 @@
     <EmbeddedResource Include="Config\Json\ResourceConfig.dev.json" />
     <EmbeddedResource Include="Config\Json\ResourceConfig.json" />
     <EmbeddedResource Include="Config\Xml\ResourceConfig.xml" />
+    <EmbeddedResource Include="Config\Yaml\ResourceConfig.prod.yaml" />
+    <EmbeddedResource Include="Config\Yaml\ResourceConfig.dev.yaml" />
     <EmbeddedResource Include="Config\Yaml\ResourceConfig.yaml" />
   </ItemGroup>
 

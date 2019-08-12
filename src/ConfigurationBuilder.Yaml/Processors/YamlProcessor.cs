@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -18,7 +18,14 @@ namespace ConfigurationBuilder.Yaml.Processors
 
         public T MergeContents(params string[] contents)
         {
-            throw new NotImplementedException("Merging multiple configurations is currently not supported by Yaml");
+            var reader = new StringReader(string.Join("", contents));
+            var parser = new MergingParser(new Parser(reader));
+
+            var deserializer = new DeserializerBuilder()
+                .WithNamingConvention(new CamelCaseNamingConvention())
+                .Build();
+
+            return deserializer.Deserialize<T>(parser);
         }
     }
 }
