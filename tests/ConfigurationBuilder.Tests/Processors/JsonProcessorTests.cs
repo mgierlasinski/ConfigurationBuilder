@@ -28,7 +28,7 @@ namespace ConfigurationBuilder.Tests.Processors
             var reader = new ReaderFixture().CreateEmbeddedResourceReader("Config.Json.ResourceConfig.json");
             
             var content1 = reader.ReadContent();
-            var content2 = reader.ReadContentForEnvironment("dev");
+            var content2 = reader.ReadContent("dev");
 
             var jsonProcessor = new JsonProcessor<Configuration>();
 
@@ -47,8 +47,8 @@ namespace ConfigurationBuilder.Tests.Processors
             var reader = new ReaderFixture().CreateEmbeddedResourceReader("Config.Json.ResourceConfig.json");
 
             var content1 = reader.ReadContent();
-            var content2 = reader.ReadContentForEnvironment("dev");
-            var content3 = reader.ReadContentForEnvironment("prod");
+            var content2 = reader.ReadContent("dev");
+            var content3 = reader.ReadContent("prod");
 
             var jsonProcessor = new JsonProcessor<Configuration>();
 

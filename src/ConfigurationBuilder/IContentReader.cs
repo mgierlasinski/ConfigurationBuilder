@@ -1,9 +1,11 @@
-﻿namespace ConfigurationBuilder
+﻿using System.IO;
+
+namespace ConfigurationBuilder
 {
     public interface IContentReader
     {
-        string ReadContent();
+        Stream OpenStream(string environment = null);
 
-        string ReadContentForEnvironment(string environment);
+        string ReadContent(string environment = null);
     }
 }

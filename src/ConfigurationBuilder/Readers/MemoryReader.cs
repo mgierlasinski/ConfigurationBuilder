@@ -1,4 +1,7 @@
-﻿namespace ConfigurationBuilder.Readers
+﻿using System.IO;
+using System.Text;
+
+namespace ConfigurationBuilder.Readers
 {
     public class MemoryReader : IContentReader
     {
@@ -9,12 +12,12 @@
             _content = content;
         }
 
-        public string ReadContent()
+        public Stream OpenStream(string environment = null)
         {
-            return _content;
+            return new MemoryStream(Encoding.UTF8.GetBytes(_content));
         }
 
-        public string ReadContentForEnvironment(string environment)
+        public string ReadContent(string environment = null)
         {
             return _content;
         }

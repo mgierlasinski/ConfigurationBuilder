@@ -34,26 +34,26 @@ namespace ConfigurationBuilder.Tests.Readers
         }
 
         [Fact]
-        public void ReadContentForEnvironment_ExistingFile_NotEmptyResult()
+        public void ReadContentWithEnvironment_ExistingFile_NotEmptyResult()
         {
             // Arrange
             var reader = new ReaderFixture().CreateEmbeddedResourceReader("Config.Json.ResourceConfig.json");
 
             // Act
-            var content = reader.ReadContentForEnvironment("dev");
+            var content = reader.ReadContent("dev");
 
             // assert
             content.Should().NotBeEmpty();
         }
 
         [Fact]
-        public void ReadContentForEnvironment_NotExistingFile_ThrowsArgumentException()
+        public void ReadContentWithEnvironment_NotExistingFile_ThrowsArgumentException()
         {
             // Arrange
             var reader = new ReaderFixture().CreateEmbeddedResourceReader("Config.Json.ResourceConfig.json");
 
             // Act
-            Action action = () => reader.ReadContentForEnvironment("test");
+            Action action = () => reader.ReadContent("test");
 
             // assert
             action.Should().Throw<ArgumentException>();

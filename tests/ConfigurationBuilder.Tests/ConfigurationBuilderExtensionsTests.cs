@@ -14,7 +14,7 @@ namespace ConfigurationBuilder.Tests
             // Arrange
             var reader = Substitute.For<IContentReader>();
             reader.ReadContent().Returns("Mock content");
-            reader.ReadContentForEnvironment(Arg.Any<string>()).Returns("Mock content for env");
+            reader.ReadContent(Arg.Is<string>(x => !string.IsNullOrEmpty(x))).Returns("Mock content for env");
 
             // Act
             var builder = new ConfigurationBuilder<Configuration>()
@@ -22,7 +22,7 @@ namespace ConfigurationBuilder.Tests
 
             // Assert
             builder.Reader.ReadContent().Should().Be("Mock content");
-            builder.Reader.ReadContentForEnvironment("dev").Should().Be("Mock content for env");
+            builder.Reader.ReadContent("dev").Should().Be("Mock content for env");
         }
 
         [Fact]

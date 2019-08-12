@@ -36,26 +36,26 @@ namespace ConfigurationBuilder.Tests.Readers
         }
 
         [Fact]
-        public void ReadContentForEnvironment_ExistingFile_NotEmptyResult()
+        public void ReadContentWithEnvironment_ExistingFile_NotEmptyResult()
         {
             // Arrange
             var reader = new ReaderFixture().CreateFileReader("Config\\Json\\CopyConfig.json");
 
             // Act
-            var content = reader.ReadContentForEnvironment("dev");
+            var content = reader.ReadContent("dev");
 
             // assert
             content.Should().NotBeEmpty();
         }
 
         [Fact]
-        public void ReadContentForEnvironment_NotExistingFile_ThrowsFileNotFoundException()
+        public void ReadContentWithEnvironment_NotExistingFile_ThrowsFileNotFoundException()
         {
             // Arrange
             var reader = new ReaderFixture().CreateFileReader("Config\\Json\\CopyConfig.json");
 
             // Act
-            Action action = () => reader.ReadContentForEnvironment("test");
+            Action action = () => reader.ReadContent("test");
 
             // assert
             action.Should().Throw<FileNotFoundException>();

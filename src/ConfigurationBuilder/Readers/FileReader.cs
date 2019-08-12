@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 
 namespace ConfigurationBuilder.Readers
 {
@@ -13,20 +14,26 @@ namespace ConfigurationBuilder.Readers
             _options = options;
         }
 
-        public string ReadContent()
+        public Stream OpenStream(string environment = null)
         {
-            return ReadTextFromPath(_path);
+            var filePath = environment != null
+                ? _options.FileNameHandler.GetFilePathForEnvironment(_path, environment)
+                : _path;
+
+            return File.Open(filePath, FileMode.Open);
         }
 
-        public string ReadContentForEnvironment(string environment)
+        public string ReadContent(string environment = null)
         {
-            var envPath = _options.FileNameHandler.GetFilePathForEnvironment(_path, environment);
-            return ReadTextFromPath(envPath);
-        }
+            string text;
+            var stream = OpenStream(environment);
 
-        public string ReadTextFromPath(string path)
-        {
-            return File.ReadAllText(path);
+            using (var streamReader = new StreamReader(stream, Encoding.UTF8))
+            {
+                text = streamReader.ReadToEnd();
+            }
+
+            return text;
         }
     }
 }

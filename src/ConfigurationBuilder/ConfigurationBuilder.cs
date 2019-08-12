@@ -14,7 +14,7 @@
         public T BuildForEnvironment(string environment)
         {
             var content = Reader.ReadContent();
-            var envContent = Reader.ReadContentForEnvironment(environment);
+            var envContent = Reader.ReadContent(environment);
 
             return Processor.MergeContents(content, envContent);
         }

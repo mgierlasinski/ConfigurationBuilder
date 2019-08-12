@@ -14,26 +14,24 @@ namespace ConfigurationBuilder.Readers
             _options = options;
         }
 
-        public string ReadContent()
+        public Stream OpenStream(string environment = null)
         {
-            return ReadTextFromPath(_path);
+            var streamPath = environment != null
+                ? _options.FileNameHandler.GetFilePathForEnvironment(_path, environment)
+                : _path;
+
+            return _options.Assembly.GetManifestResourceStream(streamPath);
         }
 
-        public string ReadContentForEnvironment(string environment)
-        {
-            var envPath = _options.FileNameHandler.GetFilePathForEnvironment(_path, environment);
-            return ReadTextFromPath(envPath);
-        }
-
-        private string ReadTextFromPath(string path)
+        public string ReadContent(string environment = null)
         {
             string content;
 
-            using (var stream = _options.Assembly.GetManifestResourceStream(path))
+            using (var stream = OpenStream(environment))
             {
                 if (stream == null)
                 {
-                    throw new ArgumentException($"Cannot read file at {path}. Make sure you entered full namespace and file has Build Action set to Embedded Resource");
+                    throw new ArgumentException($"Cannot read file, make sure you entered full namespace and file has Build Action set to Embedded Resource");
                 }
 
                 using (var reader = new StreamReader(stream))
