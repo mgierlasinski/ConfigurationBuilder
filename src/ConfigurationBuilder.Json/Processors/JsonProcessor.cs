@@ -1,34 +1,57 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Linq;
+using System.IO;
+using System.Text;
 
 namespace ConfigurationBuilder.Json.Processors
 {
     public class JsonProcessor<T> : IContentProcessor<T>
     {
-        public T ProcessContent(string content)
+        public T ProcessContent(IContentReader reader)
         {
-            return JsonConvert.DeserializeObject<T>(content);
-        }
+            T result;
 
-        public T MergeContents(params string[] contents)
-        {
-            if (contents.Length < 1)
-                return default;
-
-            var mergedJson = JObject.Parse(contents.First());
-
-            foreach (var content in contents.Skip(1))
+            using (var stream = reader.OpenStream())
+            using (var streamReader = new StreamReader(stream, Encoding.UTF8))
             {
-                var json = JObject.Parse(content);
-
-                mergedJson.Merge(json, new JsonMergeSettings
-                {
-                    MergeArrayHandling = MergeArrayHandling.Union
-                });
+                var serializer = new JsonSerializer();
+                result = (T)serializer.Deserialize(streamReader, typeof(T));
             }
 
-            return mergedJson.ToObject<T>();
+            return result;
+        }
+
+        public T ProcessContentForEnvironment(IContentReader reader, string environment)
+        {
+            JObject baseObject;
+            JObject envObject;
+
+            using (var stream = reader.OpenStream())
+            {
+                baseObject = GetJObjectFromStream(stream);
+            }
+
+            using (var stream = reader.OpenStream(environment))
+            {
+                envObject = GetJObjectFromStream(stream);
+            }
+
+            baseObject.Merge(envObject, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
+
+            return baseObject.ToObject<T>();
+        }
+
+        private JObject GetJObjectFromStream(Stream stream)
+        {
+            JObject json;
+
+            using (var streamReader = new StreamReader(stream, Encoding.UTF8))
+            using (JsonTextReader reader = new JsonTextReader(streamReader))
+            {
+                json = (JObject)JToken.ReadFrom(reader);
+            }
+
+            return json;
         }
     }
 }

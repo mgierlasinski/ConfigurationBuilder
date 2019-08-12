@@ -32,14 +32,15 @@ namespace ConfigurationBuilder.Tests
             var expected = ConfigurationTestData.GetExpected(clientId: "mocked_implementation");
 
             var processor = Substitute.For<IContentProcessor<Configuration>>();
-            processor.ProcessContent(Arg.Any<string>()).Returns(expected);
+            processor.ProcessContent(Arg.Any<IContentReader>()).Returns(expected);
 
             // Act
             var builder = new ConfigurationBuilder<Configuration>()
                 .Setup(x => x.Processor = processor);
 
             // Assert
-            builder.Processor.ProcessContent("test").Should().BeEquivalentTo(expected);
+            var config = builder.Processor.ProcessContent(Substitute.For<IContentReader>());
+            config.Should().BeEquivalentTo(expected);
         }
     }
 }

@@ -7,16 +7,12 @@
 
         public T Build()
         {
-            var content = Reader.ReadContent();
-            return Processor.ProcessContent(content);
+            return Processor.ProcessContent(Reader);
         }
 
         public T BuildForEnvironment(string environment)
         {
-            var content = Reader.ReadContent();
-            var envContent = Reader.ReadContent(environment);
-
-            return Processor.MergeContents(content, envContent);
+            return Processor.ProcessContentForEnvironment(Reader, environment);
         }
     }
 }

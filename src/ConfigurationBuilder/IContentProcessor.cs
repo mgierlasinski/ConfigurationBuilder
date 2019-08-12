@@ -2,8 +2,8 @@
 {
     public interface IContentProcessor<T>
     {
-        T ProcessContent(string content);
+        T ProcessContent(IContentReader reader);
 
-        T MergeContents(params string[] contents);
+        T ProcessContentForEnvironment(IContentReader reader, string environment);
     }
 }
